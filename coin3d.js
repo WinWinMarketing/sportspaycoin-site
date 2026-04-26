@@ -6,10 +6,40 @@
 
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 
 const HOST_ID = 'coin3d-host';
 const MODEL_URL = 'spc-coin.glb';
+
+// Build a bright studio environment scene used purely as input for PMREM.
+// Pure-metallic materials need bright surfaces to reflect; a generic grey
+// room reads as dim chrome. Big white emissive panels above/around the coin
+// act like studio softboxes and give the rim its silver shimmer.
+function buildStudioEnvScene() {
+  const env = new THREE.Scene();
+  // Soft warm/cool fill so the silver picks up subtle hue variation
+  env.add(new THREE.HemisphereLight(0xfff8f0, 0x404060, 1.0));
+  const mkPanel = (color, w, h, pos, rot) => {
+    const m = new THREE.Mesh(
+      new THREE.PlaneGeometry(w, h),
+      new THREE.MeshBasicMaterial({ color, side: THREE.DoubleSide })
+    );
+    m.position.set(...pos);
+    if (rot) m.rotation.set(...rot);
+    env.add(m);
+    return m;
+  };
+  // Top — main key softbox (warm white)
+  mkPanel(0xffffff, 12, 8, [0, 6, 0], [-Math.PI / 2, 0, 0]);
+  // Front — large bright fill so the rim catches highlights toward the viewer
+  mkPanel(0xeeeeff, 14, 10, [0, 0, 6], [0, 0, 0]);
+  // Left — cool side
+  mkPanel(0xb0c8ff, 10, 10, [-6, 0, 0], [0, Math.PI / 2, 0]);
+  // Right — warm side
+  mkPanel(0xffd0c0, 10, 10, [6, 0, 0], [0, -Math.PI / 2, 0]);
+  // Bottom — dim ground so reflections fall off naturally
+  mkPanel(0x222229, 12, 12, [0, -6, 0], [Math.PI / 2, 0, 0]);
+  return env;
+}
 
 // ---------- Main entry ----------
 export function initCoin3D() {
@@ -32,39 +62,43 @@ export function initCoin3D() {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.setSize(W(), H(), false);
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.05;
+  renderer.toneMappingExposure = 1.25;
   host.appendChild(renderer.domElement);
   renderer.domElement.style.touchAction = 'none';
   renderer.domElement.style.cursor = 'grab';
 
-  // Environment map — critical for metals. Without an envMap, fully metallic
-  // materials only reflect direct lights and huge areas appear black. We use
-  // RoomEnvironment which generates a neutral studio-style cubemap on the fly.
+  // Environment map — critical for metals. Pure metallic materials only
+  // reflect what's around them, so we PMREM a custom studio scene with
+  // bright softbox panels on every side. The rim now reads as silver chrome.
   const pmrem = new THREE.PMREMGenerator(renderer);
   pmrem.compileEquirectangularShader();
-  const envTex = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+  const envTex = pmrem.fromScene(buildStudioEnvScene(), 0.04).texture;
   scene.environment = envTex;
 
-  // Lighting — three-point setup with brand-color rims
-  scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+  // Direct lighting — keeps definition and adds the brand-coloured rim glow.
+  scene.add(new THREE.AmbientLight(0xffffff, 0.35));
 
-  const keyLight = new THREE.DirectionalLight(0xffffff, 1.6);
+  const keyLight = new THREE.DirectionalLight(0xffffff, 2.4);
   keyLight.position.set(3, 4, 5);
   scene.add(keyLight);
 
-  const fillLight = new THREE.DirectionalLight(0xffffff, 0.5);
+  const fillLight = new THREE.DirectionalLight(0xffffff, 1.0);
   fillLight.position.set(-4, 2, 3);
   scene.add(fillLight);
 
-  const cyanRim = new THREE.PointLight(0x22d3ee, 5, 20);
+  const topLight = new THREE.DirectionalLight(0xffffff, 1.4);
+  topLight.position.set(0, 6, 2);
+  scene.add(topLight);
+
+  const cyanRim = new THREE.PointLight(0x22d3ee, 4, 20);
   cyanRim.position.set(-3, 2, 2);
   scene.add(cyanRim);
 
-  const purpleRim = new THREE.PointLight(0xa855f7, 5, 20);
+  const purpleRim = new THREE.PointLight(0xa855f7, 4, 20);
   purpleRim.position.set(3, -2, 2);
   scene.add(purpleRim);
 
-  const pinkRim = new THREE.PointLight(0xf472b6, 4, 20);
+  const pinkRim = new THREE.PointLight(0xf472b6, 3, 20);
   pinkRim.position.set(0, -3, 3);
   scene.add(pinkRim);
 
@@ -181,7 +215,9 @@ export function initCoin3D() {
         if (obj.isMesh && obj.material) {
           const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
           mats.forEach((m) => {
-            if ('envMapIntensity' in m) m.envMapIntensity = 1.4;
+            // Strong env reflections — the chrome rim relies on this to read
+            // as silver instead of dark grey/black.
+            if ('envMapIntensity' in m) m.envMapIntensity = 3.0;
             m.needsUpdate = true;
           });
         }
