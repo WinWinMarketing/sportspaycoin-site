@@ -1461,7 +1461,7 @@ section {
 }
 .vest-card {
   position: relative;
-  padding: 28px 26px;
+  padding: 28px 26px 26px;
   border-radius: var(--r-lg);
   background: var(--void-card);
   box-shadow: inset 0 0 0 1.5px var(--vest-color, var(--hairline));
@@ -1482,19 +1482,25 @@ section {
   box-shadow: 0 24px 48px var(--vest-shadow, rgba(139,92,246,0.18)),
               inset 0 0 0 1.5px var(--vest-color, var(--hairline));
 }
-.vest-card .vest-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 12px;
+.vest-icon {
+  width: 56px; height: 56px;
+  display: grid; place-items: center;
+  border-radius: 16px;
+  background: var(--vest-color, var(--frost-1));
+  box-shadow: 0 10px 24px var(--vest-glow, rgba(139,92,246,0.2));
+  margin-bottom: 18px;
+  color: #fff;
 }
+.vest-icon svg { width: 26px; height: 26px; }
 .vest-name {
+  display: block;
   font-family: var(--display);
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 600;
   letter-spacing: -0.02em;
   color: var(--white);
+  margin-bottom: 10px;
+  padding-right: 165px;   /* leaves room for the absolutely-positioned tag */
 }
 .vest-detail {
   font-size: 14px;
@@ -1503,6 +1509,9 @@ section {
   margin-bottom: 22px;
 }
 .vest-tag {
+  position: absolute;
+  top: 24px;
+  right: 22px;
   display: inline-flex;
   padding: 5px 11px;
   border-radius: var(--r-pill);
@@ -1514,25 +1523,8 @@ section {
   text-transform: uppercase;
   color: var(--vest-color, var(--ghost));
   white-space: nowrap;
+  z-index: 1;
 }
-.vest-bar {
-  width: 100%;
-  height: 6px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.05);
-  overflow: hidden;
-  margin-bottom: 12px;
-}
-.vest-bar-fill {
-  height: 100%;
-  background: var(--vest-fill, var(--grad-brand));
-  box-shadow: 0 0 12px var(--vest-color, transparent);
-  border-radius: 999px;
-  transform-origin: left center;
-  animation: vestGrow 1.4s cubic-bezier(.2,.7,.2,1) forwards;
-  transform: scaleX(0);
-}
-@keyframes vestGrow { to { transform: scaleX(1); } }
 .vest-meta {
   display: flex;
   justify-content: space-between;
@@ -1623,6 +1615,9 @@ section {
   .hero-ctas .btn { width: 100%; }
   .footer-top { flex-direction: column; align-items: flex-start; }
   .final-cta { padding: 60px 24px; }
+  /* On phones, drop the tag back to flow layout so it doesn't crowd the title */
+  .vest-tag { position: static; align-self: flex-start; margin-bottom: 14px; }
+  .vest-name { padding-right: 0; }
 }
 
 /* =========================================================

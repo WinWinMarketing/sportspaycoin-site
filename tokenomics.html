@@ -254,16 +254,15 @@
     <div class="econ-grid">
       <div class="econ-card reveal">
         <div class="econ-icon">
-          <svg viewBox="0 0 64 64" fill="none" stroke="url(#egrad1)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <svg viewBox="0 0 64 64" fill="none" stroke="url(#egrad1)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <defs>
               <linearGradient id="egrad1" x1="0" x2="1" y1="0" y2="1">
                 <stop offset="0%" stop-color="#22d3ee"/><stop offset="100%" stop-color="#8b5cf6"/>
               </linearGradient>
             </defs>
-            <path d="M12 50 L20 38 L28 44 L38 28 L52 18"/>
-            <path d="M52 18 L52 30 M52 18 L40 18"/>
-            <circle cx="32" cy="40" r="14" stroke-dasharray="2 4" opacity="0.45"/>
-            <path d="M26 40 L32 46 L38 40 M32 34 L32 46"/>
+            <!-- Flame: single clean shape representing burn / deflation -->
+            <path d="M32 8 C 30 18 22 24 22 36 C 22 46 28 54 32 54 C 36 54 42 46 42 36 C 42 28 36 24 36 18 C 34 22 32 24 32 8 Z"/>
+            <path d="M32 36 C 30 38 28 41 30 44 C 32 46 35 46 36 44" opacity="0.7"/>
           </svg>
         </div>
         <h3>Deflationary Model</h3>
@@ -275,16 +274,15 @@
       </div>
       <div class="econ-card reveal">
         <div class="econ-icon">
-          <svg viewBox="0 0 64 64" fill="none" stroke="url(#egrad2)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <svg viewBox="0 0 64 64" fill="none" stroke="url(#egrad2)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <defs>
               <linearGradient id="egrad2" x1="0" x2="1" y1="0" y2="1">
                 <stop offset="0%" stop-color="#8b5cf6"/><stop offset="100%" stop-color="#f472b6"/>
               </linearGradient>
             </defs>
-            <path d="M14 48 L24 38 L34 42 L50 22"/>
-            <path d="M50 22 L50 32 M50 22 L40 22"/>
-            <circle cx="32" cy="32" r="20" opacity="0.18"/>
-            <path d="M32 22 L32 42 M27 27 C27 24 29 23 32 23 C35 23 37 25 37 27 C37 29 35 30 32 30 C29 30 27 32 27 34 C27 36 29 38 32 38 C35 38 37 37 37 35"/>
+            <!-- Trending up: single clean line with arrowhead -->
+            <polyline points="10 46 24 32 34 40 54 18"/>
+            <polyline points="42 18 54 18 54 30"/>
           </svg>
         </div>
         <h3>Value Accrual</h3>
@@ -309,36 +307,46 @@
 
     <div class="vest-grid reveal">
       <div class="vest-card vest-violet">
-        <div class="vest-head">
-          <span class="vest-name">Core Team</span>
-          <span class="vest-tag">Long-term aligned</span>
+        <span class="vest-tag">Long-term aligned</span>
+        <div class="vest-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
         </div>
+        <h3 class="vest-name">Core Team</h3>
         <div class="vest-detail">12-month cliff, 24-month linear vesting</div>
-        <div class="vest-bar"><div class="vest-bar-fill" style="width: 90%;"></div></div>
         <div class="vest-meta">
           <span>10% allocation</span>
           <span>36 months</span>
         </div>
       </div>
       <div class="vest-card vest-pink">
-        <div class="vest-head">
-          <span class="vest-name">Athletes Reserve</span>
-          <span class="vest-tag">Partnership focused</span>
+        <span class="vest-tag">Partnership focused</span>
+        <div class="vest-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
         </div>
+        <h3 class="vest-name">Athletes Reserve</h3>
         <div class="vest-detail">6-month cliff, 18-month linear vesting</div>
-        <div class="vest-bar"><div class="vest-bar-fill" style="width: 60%;"></div></div>
         <div class="vest-meta">
           <span>5% allocation</span>
           <span>24 months</span>
         </div>
       </div>
       <div class="vest-card vest-cyan">
-        <div class="vest-head">
-          <span class="vest-name">Public Sale</span>
-          <span class="vest-tag">No vesting</span>
+        <span class="vest-tag">No vesting</span>
+        <div class="vest-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+          </svg>
         </div>
+        <h3 class="vest-name">Public Sale</h3>
         <div class="vest-detail">Immediate unlock after presale</div>
-        <div class="vest-bar"><div class="vest-bar-fill" style="width: 100%;"></div></div>
         <div class="vest-meta">
           <span>80% allocation</span>
           <span>Day 1</span>
