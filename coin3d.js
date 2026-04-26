@@ -6,6 +6,7 @@
 
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 
 const HOST_ID = 'coin3d-host';
 const MODEL_URL = 'spc-coin.glb';
@@ -35,6 +36,14 @@ export function initCoin3D() {
   host.appendChild(renderer.domElement);
   renderer.domElement.style.touchAction = 'none';
   renderer.domElement.style.cursor = 'grab';
+
+  // Environment map — critical for metals. Without an envMap, fully metallic
+  // materials only reflect direct lights and huge areas appear black. We use
+  // RoomEnvironment which generates a neutral studio-style cubemap on the fly.
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  pmrem.compileEquirectangularShader();
+  const envTex = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+  scene.environment = envTex;
 
   // Lighting — three-point setup with brand-color rims
   scene.add(new THREE.AmbientLight(0xffffff, 0.5));
@@ -164,15 +173,15 @@ export function initCoin3D() {
       // points at the camera, then let user rotation take over from there.
       coin.rotation.x = Math.PI / 2;
 
-      // Lift material quality — most GLB exports come in with default
-      // MeshStandardMaterial; tweak metalness/roughness for a polished coin.
+      // Trust the GLB's authored materials (Blender SPC_Chrome = silver
+      // metalness 1.0 / roughness 0.08; SPC_Face = emissive map). Just turn
+      // env reflections up a touch so the chrome rim sparkles on bright
+      // backgrounds without going chalky.
       coin.traverse((obj) => {
         if (obj.isMesh && obj.material) {
           const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
           mats.forEach((m) => {
-            if ('metalness' in m) m.metalness = Math.max(m.metalness ?? 0, 0.55);
-            if ('roughness' in m) m.roughness = Math.min(m.roughness ?? 1, 0.45);
-            if ('envMapIntensity' in m) m.envMapIntensity = 1.2;
+            if ('envMapIntensity' in m) m.envMapIntensity = 1.4;
             m.needsUpdate = true;
           });
         }
