@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SportsPayCoin (SPC) — The Future of Sports Payments</title>
+<meta name="description" content="SportyPay revolutionizes sports finance by enabling fans to pay for tickets with tokens and empowering athletes to tokenize contracts and receive secure, instant wages." />
+<link rel="stylesheet" href="styles.css" />
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+  }
+}
+</script>
+</head>
+<body>
+
+<!-- Cursor-follow background glow -->
+<div class="cursor-glow" aria-hidden="true"></div>
+
+<!-- Navigation -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">
+      <span class="brand-coin"></span>
+      <span>Sports Pay Coin</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="tokenomics.html">Tokenomics</a></li>
+      <li><a href="whitepaper.html">Whitepaper</a></li>
+      <li><a href="#community">Community</a></li>
+    </ul>
+    <a href="#presale" class="btn btn-primary nav-cta">Join Presale</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero">
+  <div class="hero-aurora">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+  </div>
+
+  <div class="container">
+    <div class="hero-coin">
+      <div id="coin3d-host" role="img" aria-label="Interactive 3D Sports Pay Coin — drag to spin"></div>
+      <div class="coin-hint">Drag to spin · double-click for a flick</div>
+    </div>
+
+    <h1 class="h-display hero-eyebrow-gone">Revolutionizing <span class="gradient-text">Sports Finance</span></h1>
+
+    <p class="lead">Empowering the sports community with seamless token payments for tickets, contract tokenization for athletes, and revolutionary payment solutions.</p>
+
+    <div class="hero-ctas">
+      <a href="#presale" class="btn btn-grad btn-lg">
+        Join Presale
+        <span class="btn-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+      </a>
+      <a href="whitepaper.html" class="btn btn-frost btn-lg">Read Whitepaper</a>
+    </div>
+
+    <!-- Countdown -->
+    <div class="countdown-card reveal" id="presale">
+      <span class="countdown-label">Presale Starts In</span>
+      <div class="countdown-date">June 10, 2026 · 5:00 PM UK Time</div>
+      <div class="countdown-grid">
+        <div class="countdown-cell">
+          <div class="countdown-num" data-cd="d">45</div>
+          <div class="countdown-unit">Days</div>
+        </div>
+        <div class="countdown-cell">
+          <div class="countdown-num" data-cd="h">10</div>
+          <div class="countdown-unit">Hours</div>
+        </div>
+        <div class="countdown-cell">
+          <div class="countdown-num" data-cd="m">16</div>
+          <div class="countdown-unit">Minutes</div>
+        </div>
+        <div class="countdown-cell">
+          <div class="countdown-num" data-cd="s">46</div>
+          <div class="countdown-unit">Seconds</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- How to buy -->
+<section id="how-to-buy">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow"><span class="dot"></span>Get Started</span>
+      <h2 class="h-section">How to Buy <span class="gradient-text">SPC</span></h2>
+      <p class="lead">Simple steps to join the presale</p>
+    </div>
+
+    <div class="howto-grid">
+      <div class="step-card reveal">
+        <div class="step-num"><span>1</span> Step One</div>
+        <h3>Purchase Tokens</h3>
+        <ol class="step-list">
+          <li>Click "Join Presale" button to open the presale page</li>
+          <li>Connect your wallet to the platform</li>
+          <li>Pick the amount of SPC tokens you want to buy</li>
+          <li>Press "Buy" to complete your purchase</li>
+        </ol>
+      </div>
+
+      <div class="step-card reveal">
+        <div class="step-num"><span>2</span> Step Two</div>
+        <h3>Claim Your Tokens</h3>
+        <ol class="step-list">
+          <li>Wait for the presale to finish</li>
+          <li>Go back to the same presale link</li>
+          <li>Connect the same wallet you used to purchase</li>
+          <li>Press "Claim" to receive your SPC tokens to your wallet</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Live SOL chart -->
+<section id="live-chart">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow"><span class="dot"></span>Live Market</span>
+      <h2 class="h-section">Solana <span class="gradient-text">Live Chart</span></h2>
+      <p class="lead">Real-time Solana blockchain price tracking</p>
+    </div>
+
+    <div class="chart-card reveal">
+      <div class="chart-head">
+        <div>
+          <div class="chart-title">SOL/USD</div>
+          <div class="chart-sub">24h overview · last refresh just now</div>
+        </div>
+        <div class="chart-pill"><span class="live-dot"></span>Live</div>
+      </div>
+
+      <div class="chart-meta">
+        <div class="chart-price" id="sol-price">$86.49</div>
+        <div class="chart-change" id="sol-change">+0.68%</div>
+      </div>
+
+      <div class="chart-svg-wrap">
+        <svg id="sol-chart" width="100%" height="100%"></svg>
+      </div>
+
+      <div class="chart-axis">
+        <span>11:49 PM</span>
+        <span>12:05 AM</span>
+        <span>12:19 AM</span>
+        <span>12:34 AM</span>
+        <span>12:49 AM</span>
+        <span>01:05 AM</span>
+        <span>01:19 AM</span>
+        <span>01:34 AM</span>
+      </div>
+
+      <div class="chart-foot">
+        <span>Powered by CoinGecko</span>
+        <span>Updates every 30 seconds</span>
+      </div>
+    </div>
+
+    <!-- Stats row -->
+    <div class="stats-row">
+      <div class="stat reveal">
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="url(#sgrad1)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <defs><linearGradient id="sgrad1" x1="0" x2="1" y1="0" y2="1"><stop offset="0%" stop-color="#22d3ee"/><stop offset="100%" stop-color="#8b5cf6"/></linearGradient></defs>
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <div class="stat-num" data-count="5" data-suffix="+">0</div>
+        <div class="stat-label">Athletes Onboarded</div>
+      </div>
+      <div class="stat reveal">
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="url(#sgrad2)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <defs><linearGradient id="sgrad2" x1="0" x2="1" y1="0" y2="1"><stop offset="0%" stop-color="#8b5cf6"/><stop offset="100%" stop-color="#f472b6"/></linearGradient></defs>
+            <polyline points="3 17 9 11 13 15 21 7"/>
+            <polyline points="14 7 21 7 21 14"/>
+          </svg>
+        </div>
+        <div class="stat-num" data-count="450" data-prefix="$" data-suffix="K">$0K</div>
+        <div class="stat-label">Total Volume</div>
+      </div>
+      <div class="stat reveal">
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="url(#sgrad3)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <defs><linearGradient id="sgrad3" x1="0" x2="1" y1="0" y2="1"><stop offset="0%" stop-color="#22d3ee"/><stop offset="100%" stop-color="#f472b6"/></linearGradient></defs>
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+        </div>
+        <div class="stat-num" data-count="2.1" data-suffix="K+">0</div>
+        <div class="stat-label">Community Members</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section id="features">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow"><span class="dot"></span>Revolutionizing</span>
+      <h2 class="h-section"><span class="gradient-text">Sports</span> Finance</h2>
+      <p class="lead">Our innovative platform bridges the gap between traditional sports payments and modern blockchain technology</p>
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature-card reveal">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="url(#fg1)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <defs><linearGradient id="fg1" x1="0" x2="1" y1="0" y2="1"><stop offset="0%" stop-color="#22d3ee"/><stop offset="100%" stop-color="#8b5cf6"/></linearGradient></defs>
+            <path d="M3 9a3 3 0 0 1 0-6h18a3 3 0 0 1 0 6"/>
+            <path d="M3 9v9a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3V9"/>
+            <path d="M9 13h6"/>
+          </svg>
+        </div>
+        <h3>Ticket Payments</h3>
+        <p>Pay for sports events and tickets seamlessly using Sports Pay Coin tokens</p>
+      </div>
+
+      <div class="feature-card reveal">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="url(#fg2)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <defs><linearGradient id="fg2" x1="0" x2="1" y1="0" y2="1"><stop offset="0%" stop-color="#8b5cf6"/><stop offset="100%" stop-color="#f472b6"/></linearGradient></defs>
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <path d="M14 2v6h6M9 13l2 2 4-4"/>
+          </svg>
+        </div>
+        <h3>Contract Tokenization</h3>
+        <p>Athletes can tokenize their contracts for transparent and secure payments</p>
+      </div>
+
+      <div class="feature-card reveal">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="url(#fg3)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <defs><linearGradient id="fg3" x1="0" x2="1" y1="0" y2="1"><stop offset="0%" stop-color="#f472b6"/><stop offset="100%" stop-color="#22d3ee"/></linearGradient></defs>
+            <circle cx="12" cy="8" r="4"/>
+            <path d="M4 22a8 8 0 0 1 16 0"/>
+            <path d="M19 13l2 2 3-3"/>
+          </svg>
+        </div>
+        <h3>Athlete Wages</h3>
+        <p>Direct, fast payments to athletes and sports professionals worldwide</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Vision -->
+<section id="vision">
+  <div class="container">
+    <div class="vision-grid">
+      <div class="reveal">
+        <span class="eyebrow"><span class="dot"></span>Our Vision</span>
+        <h2 class="h-section" style="margin-top: 16px;">Empowering Athletes & <span class="gradient-text">Sports Communities</span></h2>
+        <p class="lead" style="margin-top: 18px;">Sports Pay Coin isn't just another meme coin. We're building the infrastructure for a new era where athletes control their financial destiny and fans experience seamless, tokenized sports engagement.</p>
+        <ul class="vision-bullets">
+          <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span> Secure contract tokenization</li>
+          <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span> Instant global payments</li>
+          <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span> Community-driven ecosystem</li>
+        </ul>
+      </div>
+
+      <div class="vision-cta-card reveal">
+        <h3>Join the Revolution</h3>
+        <p>Be part of the sports payment evolution</p>
+        <a href="#presale" class="btn btn-primary">
+          Join Presale
+          <span class="btn-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Tokenomics teaser -->
+<section id="tokenomics">
+  <div class="container">
+    <div class="tokenomics-teaser">
+      <div class="reveal">
+        <span class="eyebrow"><span class="dot"></span>Tokenomics</span>
+        <h2 class="h-section" style="margin-top: 16px;">Carefully <span class="gradient-text">designed</span> token economics</h2>
+        <p class="lead" style="margin-top: 18px;">Carefully designed token economics to ensure sustainable growth and community rewards.</p>
+        <div class="totalsupply-badge" style="margin-top: 28px;">
+          <span class="num">1.5B</span>
+          <span class="lbl">SPC Tokens · Total Supply</span>
+        </div>
+        <div style="margin-top: 18px;">
+          <a href="tokenomics.html" class="btn btn-grad">
+            View Full Tokenomics
+            <span class="btn-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+          </a>
+        </div>
+      </div>
+
+      <ul class="allocation-list reveal">
+        <li class="allocation-row">
+          <span class="allocation-pct" data-count="80" data-suffix="%">0%</span>
+          <span>
+            <span class="allocation-name">Public Sale & Liquidity</span>
+            <div class="allocation-sub">Majority allocated for public distribution</div>
+          </span>
+        </li>
+        <li class="allocation-row">
+          <span class="allocation-pct" data-count="10" data-suffix="%">0%</span>
+          <span>
+            <span class="allocation-name">Team</span>
+            <div class="allocation-sub">Core Team</div>
+          </span>
+        </li>
+        <li class="allocation-row">
+          <span class="allocation-pct" data-count="5" data-suffix="%">0%</span>
+          <span>
+            <span class="allocation-name">Community</span>
+            <div class="allocation-sub">Ecosystem Rewards</div>
+          </span>
+        </li>
+        <li class="allocation-row">
+          <span class="allocation-pct" data-count="5" data-suffix="%">0%</span>
+          <span>
+            <span class="allocation-name">Athletes</span>
+            <div class="allocation-sub">Payment Reserve</div>
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Community -->
+<section id="community" class="community">
+  <div class="container">
+    <div class="community-card reveal">
+      <span class="eyebrow"><span class="dot"></span>Community</span>
+      <h2 class="h-section" style="margin-top: 20px;">Join Our <span class="gradient-text">Community</span></h2>
+      <p class="lead" style="margin: 18px auto 0;">Connect with athletes, sports fans, and blockchain enthusiasts building the future of sports finance.</p>
+      <div class="community-buttons">
+        <a href="#" class="btn btn-grad">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          Instagram
+        </a>
+        <a href="#" class="btn btn-frost">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          Telegram
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="brand">
+        <span class="brand-coin"></span>
+        <span>Sports Pay Coin</span>
+      </div>
+      <div class="footer-copy">© 2025 Sports Pay Coin. Empowering the future of sports finance.</div>
+    </div>
+    <div class="footer-disclaimer">
+      <strong>Disclaimer</strong>
+      Sports Pay Coin is a meme-based cryptocurrency created purely for entertainment and community engagement. It has no intrinsic value and should not be considered an investment, financial product, or security of any kind. By purchasing, trading, or interacting with Sports Pay Coin, you acknowledge that the value can change rapidly and you may lose some or all of your money. Cryptocurrency and meme coins are highly volatile assets. Sports Pay Coin, its team, and its contributors are not responsible for any losses, damages, or issues that arise from holding, using, or trading the coin. Nothing on this website constitutes financial or investment advice.
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+<script type="module">
+  import { initCoin3D } from './coin3d.js';
+  if (document.readyState !== 'loading') initCoin3D();
+  else document.addEventListener('DOMContentLoaded', initCoin3D);
+</script>
+</body>
+</html>
