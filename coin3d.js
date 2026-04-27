@@ -155,36 +155,16 @@ export function initCoin3D() {
       coin = gltf.scene;
 
       // Center & scale the model to fit the host's view nicely.
+      // Authored orientation and materials are preserved as-is.
       const box = new THREE.Box3().setFromObject(coin);
       const size = new THREE.Vector3();
       const center = new THREE.Vector3();
       box.getSize(size);
       box.getCenter(center);
-      // Recenter
       coin.position.sub(center);
-      // Scale so the largest dimension is ~2.2 units (camera at z=4.5, fov=35)
       const maxDim = Math.max(size.x, size.y, size.z) || 1;
       const targetSize = 2.2;
-      const scale = targetSize / maxDim;
-      coin.scale.setScalar(scale);
-
-      // The Meshy export comes face-up (Y up). Tilt it forward so the face
-      // points at the camera, then let user rotation take over from there.
-      coin.rotation.x = Math.PI / 2;
-
-      // Trust the GLB's authored materials (Blender SPC_Chrome = silver
-      // metalness 1.0 / roughness 0.08; SPC_Face = emissive map). Just turn
-      // env reflections up a touch so the chrome rim sparkles on bright
-      // backgrounds without going chalky.
-      coin.traverse((obj) => {
-        if (obj.isMesh && obj.material) {
-          const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
-          mats.forEach((m) => {
-            if ('envMapIntensity' in m) m.envMapIntensity = 1.4;
-            m.needsUpdate = true;
-          });
-        }
-      });
+      coin.scale.setScalar(targetSize / maxDim);
 
       pivot.add(coin);
     },
