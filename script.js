@@ -453,9 +453,10 @@
 
   // ============================================================
   // News: latest sports + crypto headlines
-  // CryptoCompare's free News API (no key, CORS enabled). We pull the
-  // latest crypto news, filter client-side for sports keywords, and
-  // fall back to top general crypto news if nothing matches.
+  // Pulls Cointelegraph (and Decrypt as fallback) via rss2json — both free,
+  // no API key, CORS-enabled. Filter prefers sports-tagged stories; if too
+  // few match, falls back to top general crypto news so the grid is never
+  // empty.
   // ============================================================
   const NEWS_KEYWORDS = [
     'sport', 'sports', 'athlete', 'athletes', 'nba', 'nfl', 'fifa',
@@ -464,11 +465,35 @@
     'nhl', 'mlb', 'mls', 'esports', 'fitness', 'la liga', 'premier league',
     'chiliz', 'socios', 'racing', 'f1', 'formula 1', 'world cup', 'cricket'
   ];
+  const NEWS_FEEDS = [
+    { url: 'https://cointelegraph.com/rss', source: 'Cointelegraph' },
+    { url: 'https://decrypt.co/feed',       source: 'Decrypt' }
+  ];
 
   function escapeHtml(s) {
     return String(s == null ? '' : s)
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+  function stripTags(html) {
+    return String(html || '')
+      .replace(/<[^>]+>/g, ' ')
+      .replace(/&nbsp;/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+  function firstImage(item) {
+    if (item.thumbnail) return item.thumbnail;
+    if (item.enclosure && item.enclosure.link) return item.enclosure.link;
+    const m = String(item.content || item.description || '').match(/<img[^>]+src="([^"]+)"/i);
+    return m ? m[1] : '';
+  }
+  function parsePubDate(s) {
+    if (!s) return 0;
+    // rss2json returns "YYYY-MM-DD HH:MM:SS" in UTC
+    const safe = s.includes('T') ? s : s.replace(' ', 'T') + 'Z';
+    const t = Date.parse(safe);
+    return isNaN(t) ? 0 : Math.floor(t / 1000);
   }
   function timeAgo(unixSec) {
     if (!unixSec) return '';
@@ -481,11 +506,11 @@
   }
   function buildNewsCard(item) {
     const title = escapeHtml(item.title || '');
-    const url = escapeHtml(item.url || '#');
-    const source = escapeHtml((item.source_info && item.source_info.name) || item.source || 'News');
-    const img = escapeHtml(item.imageurl || '');
-    const snippet = escapeHtml((item.body || '').slice(0, 180).trim() + (item.body && item.body.length > 180 ? '...' : ''));
-    const when = timeAgo(item.published_on);
+    const url = escapeHtml(item.link || '#');
+    const source = escapeHtml(item._source || 'News');
+    const img = escapeHtml(item._img || '');
+    const snippet = escapeHtml(((item._text || '').slice(0, 180)).trim() + (item._text && item._text.length > 180 ? '...' : ''));
+    const when = timeAgo(item._ts);
     return (
       '<a class="news-card" href="' + url + '" target="_blank" rel="noopener">' +
         '<div class="news-thumb"' + (img ? ' style="background-image:url(\'' + img + '\')"' : '') + '></div>' +
@@ -498,27 +523,46 @@
       '</a>'
     );
   }
+  async function fetchFeed(feed) {
+    const proxy = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(feed.url);
+    const res = await fetch(proxy, { cache: 'no-store' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    if (!data || data.status !== 'ok' || !Array.isArray(data.items)) throw new Error('bad feed');
+    return data.items.map(it => ({
+      ...it,
+      _source: feed.source,
+      _img: firstImage(it),
+      _text: stripTags(it.description || it.content || ''),
+      _ts: parsePubDate(it.pubDate)
+    }));
+  }
   async function loadNews() {
     const grid = document.getElementById('news-grid');
     if (!grid) return;
-    try {
-      const url = 'https://min-api.cryptocompare.com/data/v2/news/?lang=EN';
-      const res = await fetch(url, { cache: 'no-store' });
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      const data = await res.json();
-      const items = (data && Array.isArray(data.Data)) ? data.Data : [];
-      if (!items.length) throw new Error('no items');
-
-      // Prefer sports-related stories
-      const matches = items.filter(item => {
-        const text = ((item.title || '') + ' ' + (item.body || '') + ' ' + (item.categories || '')).toLowerCase();
-        return NEWS_KEYWORDS.some(k => text.includes(k));
-      });
-      const chosen = (matches.length >= 3 ? matches : items).slice(0, 6);
-      grid.innerHTML = chosen.map(buildNewsCard).join('');
-    } catch (e) {
-      grid.innerHTML = '<div class="news-empty">Couldn\'t load latest news right now. Try again later.</div>';
+    // Try each feed, keep going on failure so a single bad source doesn't kill the section
+    let allItems = [];
+    for (const feed of NEWS_FEEDS) {
+      try {
+        const items = await fetchFeed(feed);
+        allItems = allItems.concat(items);
+      } catch (e) {
+        // ignore, try next
+      }
     }
+    if (!allItems.length) {
+      grid.innerHTML = '<div class="news-empty">Couldn\'t load latest news right now. Try again later.</div>';
+      return;
+    }
+    // Sort newest first
+    allItems.sort((a, b) => (b._ts || 0) - (a._ts || 0));
+    // Prefer sports-tagged stories
+    const matches = allItems.filter(it => {
+      const text = ((it.title || '') + ' ' + (it._text || '') + ' ' + (it.categories || []).join(' ')).toLowerCase();
+      return NEWS_KEYWORDS.some(k => text.includes(k));
+    });
+    const chosen = (matches.length >= 3 ? matches : allItems).slice(0, 6);
+    grid.innerHTML = chosen.map(buildNewsCard).join('');
   }
 
   // ============================================================
