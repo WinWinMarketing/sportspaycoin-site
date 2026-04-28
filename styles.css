@@ -566,6 +566,69 @@ h1, h2, h3, h4 {
   color: var(--ghost);
 }
 
+/* Hero video bleeds to the card's edges so it looks like one unit */
+.presale-video-wrap {
+  position: relative;
+  margin: 28px -28px -36px;
+  background: #000;
+  border-bottom-left-radius: var(--r-lg);
+  border-bottom-right-radius: var(--r-lg);
+  overflow: hidden;
+  /* subtle top divider so the video reads as a separate slab */
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+.presale-video {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #000;
+}
+.presale-mute-btn {
+  position: absolute;
+  bottom: 14px;
+  right: 14px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 0;
+  padding: 0;
+  background: rgba(0, 0, 0, 0.55);
+  -webkit-backdrop-filter: blur(8px);
+          backdrop-filter: blur(8px);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  color: #fff;
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+.presale-mute-btn:hover {
+  background: rgba(0, 0, 0, 0.78);
+  transform: scale(1.06);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.28),
+              0 8px 24px rgba(0, 0, 0, 0.45);
+}
+.presale-mute-btn:focus-visible {
+  outline: 2px solid #22d3ee;
+  outline-offset: 3px;
+}
+.presale-mute-ico {
+  display: block;
+  width: 22px;
+  height: 22px;
+}
+.presale-mute-ico svg { width: 100%; height: 100%; }
+
+@media (max-width: 600px) {
+  .presale-mute-btn {
+    bottom: 10px;
+    right: 10px;
+    width: 38px;
+    height: 38px;
+  }
+  .presale-mute-ico { width: 18px; height: 18px; }
+}
+
 /* =========================================================
    Section primitives
    ========================================================= */

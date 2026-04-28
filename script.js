@@ -582,6 +582,48 @@
   }
 
   // ============================================================
+  // Hero presale video: muted autoplay + click-to-unmute toggle.
+  // Browsers only allow autoplay when the video is muted, so we start
+  // muted and let the user opt in to sound via the corner button.
+  // ============================================================
+  function setupPresaleVideo() {
+    const video = document.getElementById('presale-video');
+    const btn   = document.getElementById('presale-mute');
+    if (!video || !btn) return;
+
+    const ico = btn.querySelector('.presale-mute-ico');
+    const ICON_MUTED =
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+      '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>' +
+      '<line x1="22" y1="9" x2="16" y2="15"/>' +
+      '<line x1="16" y1="9" x2="22" y2="15"/>' +
+      '</svg>';
+    const ICON_SOUND =
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+      '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>' +
+      '<path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>' +
+      '<path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>' +
+      '</svg>';
+
+    function refresh() {
+      if (ico) ico.innerHTML = video.muted ? ICON_MUTED : ICON_SOUND;
+      btn.setAttribute('aria-label', video.muted ? 'Unmute video' : 'Mute video');
+      btn.setAttribute('aria-pressed', String(!video.muted));
+    }
+    refresh();
+
+    btn.addEventListener('click', () => {
+      video.muted = !video.muted;
+      // Some browsers pause when toggling mute mid-stream, so re-kick play
+      if (!video.muted) video.play().catch(() => {});
+      refresh();
+    });
+
+    // If autoplay is blocked, still keep things tidy
+    video.addEventListener('volumechange', refresh);
+  }
+
+  // ============================================================
   // Boot
   // ============================================================
   document.addEventListener('DOMContentLoaded', () => {
@@ -593,6 +635,7 @@
     setupCursorGlow();
     setupSolPrice();
     setupCountUp();
+    setupPresaleVideo();
     loadNews();
   });
 })();
