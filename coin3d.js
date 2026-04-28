@@ -141,8 +141,14 @@ export function initCoin3D() {
     state.velY = Math.max(-60, Math.min(60, state.velY));
   }, { passive: false });
 
+  // Double-click — one-shot vertical flip (top-over-bottom) using a tween so
+  // it doesn't fight the tilt dampener and always lands cleanly.
+  const flip = { active: false, start: 0, baseX: 0, duration: 0.7 };
   renderer.domElement.addEventListener('dblclick', () => {
-    state.velY = 18;
+    if (flip.active) return;
+    flip.active = true;
+    flip.start = performance.now();
+    flip.baseX = pivot.rotation.x;
   });
 
   // ---------- Load the GLB ----------
@@ -191,7 +197,25 @@ export function initCoin3D() {
     const dt = Math.min(0.05, (now - last) / 1000);
     last = now;
 
-    if (!state.dragging) {
+    if (flip.active) {
+      // Vertical flip tween — overrides normal X-axis physics so it lands cleanly.
+      const t = (now - flip.start) / 1000 / flip.duration;
+      if (t >= 1) {
+        flip.active = false;
+        pivot.rotation.x = flip.baseX;
+        state.velX = 0;
+      } else {
+        // Ease in-out cubic for a satisfying coin-toss feel
+        const eased = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+        pivot.rotation.x = flip.baseX + eased * Math.PI * 2;
+      }
+      // Keep the idle Y spin going through the flip
+      pivot.rotation.y += state.velY * dt;
+      state.velY *= FRICTION;
+      if (Math.abs(state.velY) < MIN_VEL_FOR_IDLE) {
+        state.velY += (state.targetIdleY - state.velY) * 0.02;
+      }
+    } else if (!state.dragging) {
       pivot.rotation.y += state.velY * dt;
       pivot.rotation.x += state.velX * dt;
       state.velY *= FRICTION;
