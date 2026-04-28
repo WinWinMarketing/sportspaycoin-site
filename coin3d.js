@@ -1,4 +1,4 @@
-// SportsPayCoin — interactive 3D coin
+// SportsPayCoin: interactive 3D coin
 // =====================================
 // Loads spc-coin.glb (Meshy / Blender export) via GLTFLoader, frames it in the
 // host element, and adds drag-to-spin / wheel / double-click flick physics so
@@ -37,7 +37,7 @@ export function initCoin3D() {
   renderer.domElement.style.touchAction = 'none';
   renderer.domElement.style.cursor = 'grab';
 
-  // Environment map — neutral studio so the rim picks up some grey reflection
+  // Environment map: neutral studio so the rim picks up some grey reflection
   // detail but stays in the deep-chrome look from the original render.
   const pmrem = new THREE.PMREMGenerator(renderer);
   pmrem.compileEquirectangularShader();
@@ -67,7 +67,7 @@ export function initCoin3D() {
   pinkRim.position.set(0, -3, 3);
   scene.add(pinkRim);
 
-  // Pivot — user rotation is applied here so we can keep the model's own
+  // Pivot: user rotation is applied here so we can keep the model's own
   // orientation (set after loading) untouched.
   const pivot = new THREE.Group();
   scene.add(pivot);
@@ -171,7 +171,7 @@ export function initCoin3D() {
     undefined,
     (err) => {
       console.error('[coin3d] Failed to load', MODEL_URL, err);
-      // Fallback — a simple bronze disc so something still renders
+      // Fallback: a simple bronze disc so something still renders
       const fallback = new THREE.Mesh(
         new THREE.CylinderGeometry(1.1, 1.1, 0.16, 96),
         new THREE.MeshStandardMaterial({ color: 0x8b5cf6, metalness: 0.7, roughness: 0.3 })

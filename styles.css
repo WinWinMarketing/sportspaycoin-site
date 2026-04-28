@@ -1,5 +1,5 @@
 /* =========================================================
-   SportsPayCoin — Framer-inspired design system
+   SportsPayCoin: Framer-inspired design system
    Pure black void · GT Walsheim-style display · Pill buttons
    Cyan→Purple→Pink gradient as brand accent · Framer Blue
    ========================================================= */
@@ -23,7 +23,7 @@
   --framer-blue: #0099ff;
   --framer-blue-glow: rgba(0, 153, 255, 0.15);
 
-  /* SPC brand gradient — cyan → purple → pink (from logo) */
+  /* SPC brand gradient: cyan, purple, pink (from logo) */
   --spc-cyan: #22d3ee;
   --spc-violet: #8b5cf6;
   --spc-pink: #f472b6;
@@ -1453,7 +1453,7 @@ section {
   margin-top: 3px;
 }
 
-/* Vesting — three differently-coloured cards */
+/* Vesting: three differently-coloured cards */
 .vest-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1590,6 +1590,105 @@ section {
 .final-cta .ctas { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 
 /* =========================================================
+   News (sports + crypto headlines)
+   ========================================================= */
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  margin-top: 40px;
+}
+.news-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--void-card);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: inset 0 0 0 1px var(--hairline);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.news-card:hover {
+  transform: translateY(-3px);
+  box-shadow: inset 0 0 0 1px rgba(139, 92, 246, 0.32),
+              0 24px 48px rgba(139, 92, 246, 0.14);
+}
+.news-thumb {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background-color: var(--frost-1);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+}
+.news-thumb::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.45));
+  pointer-events: none;
+}
+.news-body {
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+.news-source {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #22d3ee;
+}
+.news-title {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--white);
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.news-snippet {
+  font-size: 14px;
+  color: var(--silver);
+  line-height: 1.5;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.news-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ghost);
+  margin-top: auto;
+}
+.news-meta .news-arrow {
+  color: var(--white);
+}
+.news-loading,
+.news-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--silver);
+  font-size: 15px;
+}
+
+/* =========================================================
    Responsive
    ========================================================= */
 
@@ -1599,6 +1698,7 @@ section {
   .feature-grid, .specs-grid, .phases, .utility-grid { grid-template-columns: repeat(2, 1fr); }
   .stats-row { grid-template-columns: 1fr; }
   .vest-grid { grid-template-columns: 1fr; gap: 14px; }
+  .news-grid { grid-template-columns: 1fr; gap: 16px; }
   .nav-links { display: none; }
   .nav-inner { padding: 0 8px 0 16px; }
   .hero { padding-top: 80px; }

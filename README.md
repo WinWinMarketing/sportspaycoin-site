@@ -1,14 +1,14 @@
 # SportsPayCoin
 
-Marketing site for SportsPayCoin (SPC) — a Solana-based payment token for sports.
+Marketing site for SportsPayCoin (SPC), a Solana-based payment token for sports.
 
 ## Pages
-- `index.html` — Home (live SOL chart, stats, tokenomics teaser)
-- `tokenomics.html` — Full tokenomics breakdown
-- `whitepaper.html` — Whitepaper
+- `index.html`: Home (live SOL chart, stats, tokenomics teaser)
+- `tokenomics.html`: Full tokenomics breakdown
+- `whitepaper.html`: Whitepaper
 
 ## Stack
-Static site — pure HTML / CSS / JS. No build step.
+Static site, pure HTML / CSS / JS. No build step.
 
 - Live SOL price + 24h chart pulled from the public CoinGecko API (no key, CORS-enabled)
 - 3D coin rendered with Three.js (CDN via importmap)

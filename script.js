@@ -1,4 +1,4 @@
-/* SportsPayCoin — interactive bits
+/* SportsPayCoin: interactive bits
    - Countdown to June 10, 2026 17:00 UK time (BST = UTC+1)
    - SOL/USD area chart (static demo data)
    - Token distribution donut animation
@@ -9,7 +9,7 @@
   'use strict';
 
   // ============================================================
-  // Countdown — June 10, 2026 17:00 UK (BST = UTC+1)
+  // Countdown: June 10, 2026 17:00 UK (BST = UTC+1)
   // ============================================================
   const TARGET = Date.UTC(2026, 5, 10, 16, 0, 0); // 16:00 UTC = 17:00 BST
 
@@ -37,7 +37,7 @@
   }
 
   // ============================================================
-  // SOL/USD chart — live data from Zerion via /api/sol-chart
+  // SOL/USD chart: live data from Zerion via /api/sol-chart
   // Falls back to a static curve if the API is unreachable.
   // ============================================================
   const STATIC_CHART_FALLBACK = [83.4, 82.1, 84.6, 86.8, 89.2, 88.0, 85.9, 87.4, 88.7, 87.1, 85.4, 86.0, 87.6, 89.9, 91.2, 90.0, 88.3, 86.9, 87.5, 86.49];
@@ -101,7 +101,7 @@
     // Build SVG content
     const NS = 'http://www.w3.org/2000/svg';
 
-    // Gridlines — derive 4 round-ish ticks from the live range
+    // Gridlines: derive 4 round-ish ticks from the live range
     const grid = document.createElementNS(NS, 'g');
     grid.setAttribute('stroke', 'rgba(255,255,255,0.06)');
     grid.setAttribute('stroke-dasharray', '3 5');
@@ -222,7 +222,7 @@
   }
 
   // ============================================================
-  // Donut chart — token distribution (4 segments)
+  // Donut chart: token distribution (4 segments)
   // ============================================================
   function drawDonut() {
     const svg = document.getElementById('donut');
@@ -289,7 +289,7 @@
       document.head.appendChild(style);
     }
 
-    // Hover interactivity — update the center text on hover
+    // Hover interactivity: update the center text on hover
     const center = document.querySelector('.donut-center');
     if (!center) return;
     const numEl = center.querySelector('.num');
@@ -370,7 +370,7 @@
   }
 
   // ============================================================
-  // Live SOL/USD price — polls /api/sol-price every 30s
+  // Live SOL/USD price: polls /api/sol-price every 30s
   // Updates #sol-price and #sol-change. Falls back silently on error.
   // ============================================================
   function formatPrice(p) {
@@ -411,7 +411,7 @@
   }
 
   // ============================================================
-  // Cursor-follow background glow — eased trail
+  // Cursor-follow background glow: eased trail
   // ============================================================
   function setupCursorGlow() {
     const glow = document.querySelector('.cursor-glow');
@@ -452,6 +452,76 @@
   }
 
   // ============================================================
+  // News: latest sports + crypto headlines
+  // CryptoCompare's free News API (no key, CORS enabled). We pull the
+  // latest crypto news, filter client-side for sports keywords, and
+  // fall back to top general crypto news if nothing matches.
+  // ============================================================
+  const NEWS_KEYWORDS = [
+    'sport', 'sports', 'athlete', 'athletes', 'nba', 'nfl', 'fifa',
+    'soccer', 'football', 'tennis', 'baseball', 'basketball', 'olympic',
+    'olympics', 'fan token', 'fan tokens', 'club', 'league', 'team',
+    'nhl', 'mlb', 'mls', 'esports', 'fitness', 'la liga', 'premier league',
+    'chiliz', 'socios', 'racing', 'f1', 'formula 1', 'world cup', 'cricket'
+  ];
+
+  function escapeHtml(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+  function timeAgo(unixSec) {
+    if (!unixSec) return '';
+    const diff = (Date.now() / 1000) - unixSec;
+    if (diff < 60) return 'just now';
+    if (diff < 3600) return Math.floor(diff / 60) + 'm ago';
+    if (diff < 86400) return Math.floor(diff / 3600) + 'h ago';
+    if (diff < 604800) return Math.floor(diff / 86400) + 'd ago';
+    return new Date(unixSec * 1000).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  }
+  function buildNewsCard(item) {
+    const title = escapeHtml(item.title || '');
+    const url = escapeHtml(item.url || '#');
+    const source = escapeHtml((item.source_info && item.source_info.name) || item.source || 'News');
+    const img = escapeHtml(item.imageurl || '');
+    const snippet = escapeHtml((item.body || '').slice(0, 180).trim() + (item.body && item.body.length > 180 ? '...' : ''));
+    const when = timeAgo(item.published_on);
+    return (
+      '<a class="news-card" href="' + url + '" target="_blank" rel="noopener">' +
+        '<div class="news-thumb"' + (img ? ' style="background-image:url(\'' + img + '\')"' : '') + '></div>' +
+        '<div class="news-body">' +
+          '<span class="news-source">' + source + '</span>' +
+          '<h3 class="news-title">' + title + '</h3>' +
+          '<p class="news-snippet">' + snippet + '</p>' +
+          '<div class="news-meta"><span>' + when + '</span><span class="news-arrow">Read &rsaquo;</span></div>' +
+        '</div>' +
+      '</a>'
+    );
+  }
+  async function loadNews() {
+    const grid = document.getElementById('news-grid');
+    if (!grid) return;
+    try {
+      const url = 'https://min-api.cryptocompare.com/data/v2/news/?lang=EN';
+      const res = await fetch(url, { cache: 'no-store' });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      const items = (data && Array.isArray(data.Data)) ? data.Data : [];
+      if (!items.length) throw new Error('no items');
+
+      // Prefer sports-related stories
+      const matches = items.filter(item => {
+        const text = ((item.title || '') + ' ' + (item.body || '') + ' ' + (item.categories || '')).toLowerCase();
+        return NEWS_KEYWORDS.some(k => text.includes(k));
+      });
+      const chosen = (matches.length >= 3 ? matches : items).slice(0, 6);
+      grid.innerHTML = chosen.map(buildNewsCard).join('');
+    } catch (e) {
+      grid.innerHTML = '<div class="news-empty">Couldn\'t load latest news right now. Try again later.</div>';
+    }
+  }
+
+  // ============================================================
   // Boot
   // ============================================================
   document.addEventListener('DOMContentLoaded', () => {
@@ -463,5 +533,6 @@
     setupCursorGlow();
     setupSolPrice();
     setupCountUp();
+    loadNews();
   });
 })();
