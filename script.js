@@ -475,6 +475,17 @@
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
   }
+  // Defence in depth: only allow http(s) URLs from feeds, and reject any
+  // string containing characters that could break out of an HTML attribute
+  // or a CSS url() declaration. Blocks `javascript:` href XSS and
+  // background-image CSS injection from a compromised feed source.
+  function safeHttpUrl(s) {
+    if (!s) return '';
+    const u = String(s).trim();
+    if (!/^https?:\/\//i.test(u)) return '';
+    if (/['"<>\\\s;()]/.test(u)) return '';
+    return u;
+  }
   function stripTags(html) {
     return String(html || '')
       .replace(/<[^>]+>/g, ' ')
@@ -505,14 +516,19 @@
     return new Date(unixSec * 1000).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   }
   function buildNewsCard(item) {
+    const safeLink = safeHttpUrl(item.link);
+    const safeImg  = safeHttpUrl(item._img);
+    // Drop the card entirely if the link isn't a normal http(s) URL —
+    // a card you can't safely click adds no value.
+    if (!safeLink) return '';
     const title = escapeHtml(item.title || '');
-    const url = escapeHtml(item.link || '#');
+    const url = escapeHtml(safeLink);
     const source = escapeHtml(item._source || 'News');
-    const img = escapeHtml(item._img || '');
+    const img = escapeHtml(safeImg);
     const snippet = escapeHtml(((item._text || '').slice(0, 180)).trim() + (item._text && item._text.length > 180 ? '...' : ''));
     const when = timeAgo(item._ts);
     return (
-      '<a class="news-card" href="' + url + '" target="_blank" rel="noopener">' +
+      '<a class="news-card" href="' + url + '" target="_blank" rel="noopener noreferrer">' +
         '<div class="news-thumb"' + (img ? ' style="background-image:url(\'' + img + '\')"' : '') + '></div>' +
         '<div class="news-body">' +
           '<span class="news-source">' + source + '</span>' +
