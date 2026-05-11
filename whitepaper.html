@@ -6,15 +6,13 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https: data:; connect-src 'self' https://api.rss2json.com https://api.coingecko.com; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests" />
 <meta name="referrer" content="strict-origin-when-cross-origin" />
 <title>Whitepaper | SportsPayCoin</title>
-<meta name="description" content="The official Sports Pay Coin whitepaper covering vision, tokenomics, presale, roadmap, and community." />
+<meta name="description" content="The Sports Pay Coin whitepaper — vision, tokenomics, the tokenization workflow, the Sports Oracle, presale, and roadmap." />
 <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
-<!-- Cursor-follow background glow -->
 <div class="cursor-glow" aria-hidden="true"></div>
 
-<!-- Navigation -->
 <nav class="nav">
   <div class="nav-inner">
     <a href="index.html" class="brand">
@@ -22,10 +20,11 @@
       <span>Sports Pay Coin</span>
     </a>
     <ul class="nav-links">
-      <li><a href="index.html#features">Features</a></li>
+      <li><a href="how-it-works.html">How It Works</a></li>
+      <li><a href="oracle.html">Oracle</a></li>
+      <li><a href="exchange.html">Exchange</a></li>
       <li><a href="tokenomics.html">Tokenomics</a></li>
       <li><a href="whitepaper.html">Whitepaper</a></li>
-      <li><a href="index.html#community">Community</a></li>
     </ul>
     <a href="index.html#presale" class="btn btn-primary nav-cta">Join Presale</a>
   </div>
@@ -42,10 +41,10 @@
       <span class="eyebrow"><span class="dot"></span>Official Whitepaper</span>
     </div>
     <h1 class="h-display"><span class="gradient-text">Sports Pay Coin</span></h1>
-    <p class="lead">Revolutionizing sports finance through blockchain technology</p>
+    <p class="lead">A 24/7 market for tokenized sports cards, powered by Solana and a live performance oracle.</p>
     <div class="wp-meta">
-      <span>Version 1.0</span>
-      <span>December 2024</span>
+      <span>Version 2.0</span>
+      <span>May 2026</span>
       <span>Solana · SPC</span>
     </div>
   </div>
@@ -56,8 +55,8 @@
   <!-- Executive Summary -->
   <section class="wp-section reveal">
     <h2>Executive Summary</h2>
-    <p>Sports Pay Coin (SPC) is a meme-based cryptocurrency designed to bridge the gap between traditional sports payments and modern blockchain technology. While created for entertainment and community engagement, SPC aims to demonstrate innovative use cases in the sports industry.</p>
-    <p>Our vision encompasses three core pillars: seamless token payments for sports tickets and events, contract tokenization for athletes enabling transparent financial management, and direct payment solutions for athlete wages and compensation.</p>
+    <p>Sports Pay Coin (SPC) transforms physical sports cards into dynamic, tradable assets through fractional ownership, dual-token utility, and real-time performance pricing. The result: liquidity for collectors, access for fans, and a 24/7 market that reacts to every game, every play, every moment.</p>
+    <p>This whitepaper covers the tokenization workflow, the Sports Oracle that powers dynamic pricing, our token economics, presale structure, and the roadmap to a live exchange.</p>
   </section>
 
   <!-- The Problem -->
@@ -65,19 +64,19 @@
     <h2>The Problem</h2>
     <div class="wp-grid-3">
       <div class="wp-card">
-        <div class="ic">⚙️</div>
-        <h3>Complex Payment Systems</h3>
-        <p>Traditional sports payment systems involve multiple intermediaries, high transaction fees, and slow processing times, creating friction for fans, athletes, and organizations.</p>
+        <div class="ic">📦</div>
+        <h3>Illiquid Collectibles</h3>
+        <p>High-value sports cards take weeks or months to sell. Auction cycles, escrow, shipping, insurance — friction at every step. Capital is locked.</p>
       </div>
       <div class="wp-card">
-        <div class="ic">💳</div>
-        <h3>Athlete Financial Challenges</h3>
-        <p>Athletes, especially in emerging markets, face delayed payments, currency conversion issues, and limited control over their financial assets and contracts.</p>
+        <div class="ic">🚪</div>
+        <h3>Locked-Out Fans</h3>
+        <p>A $6M Babe Ruth or a million-dollar LeBron rookie is unreachable for the everyday fan. The collector market has become a club for the wealthy.</p>
       </div>
       <div class="wp-card">
-        <div class="ic">📣</div>
-        <h3>Limited Fan Engagement</h3>
-        <p>Current ticketing and fan engagement platforms lack transparency and innovative ways for fans to participate in the sports ecosystem beyond traditional purchases.</p>
+        <div class="ic">🎭</div>
+        <h3>Counterfeit Risk</h3>
+        <p>Fakes, "cleaned" graded cards, and swap scams plague the market. There is no immutable, public history of who owned what, and when.</p>
       </div>
     </div>
   </section>
@@ -87,21 +86,43 @@
     <h2>Our Solution</h2>
     <div class="wp-grid-3">
       <div class="wp-card">
-        <div class="ic">🎟️</div>
-        <h3>Ticket Payments</h3>
-        <p>Enable fans to purchase sports tickets and merchandise using SPC tokens, reducing transaction fees and processing times.</p>
+        <div class="ic">🔒</div>
+        <h3>Vault &amp; Mint</h3>
+        <p>Cards are submitted to partnered vaults, certified, imaged, and minted on-chain as immutable digital twins. The card never leaves the vault.</p>
       </div>
       <div class="wp-card">
-        <div class="ic">📜</div>
-        <h3>Contract Tokenization</h3>
-        <p>Allow athletes to tokenize their contracts, providing transparency, fractional ownership opportunities, and liquid assets.</p>
+        <div class="ic">📈</div>
+        <h3>Tokenized Trading</h3>
+        <p>Each tokenized card lists on the SPC exchange. Buy whole, or buy fractional shares for as little as $3. 24/7 trading, instant settlement.</p>
       </div>
       <div class="wp-card">
-        <div class="ic">💸</div>
-        <h3>Athlete Wages</h3>
-        <p>Facilitate instant, borderless payments to athletes and sports professionals, eliminating delays and high conversion fees.</p>
+        <div class="ic">📡</div>
+        <h3>Sports Oracle</h3>
+        <p>A trusted data feed pipes scores, stats, injuries, sentiment, and odds onto the chain. Token prices react to live performance.</p>
       </div>
     </div>
+
+    <h3 style="margin: 36px 0 0;">In short</h3>
+    <ul class="wp-bullets">
+      <li>From physical card to digital asset: three steps (vault → mint → list)</li>
+      <li>Fractional shares democratize access to elite collectibles</li>
+      <li>The oracle makes every game a market event</li>
+      <li>Immutable provenance ends the counterfeit problem</li>
+    </ul>
+  </section>
+
+  <!-- The Workflow -->
+  <section class="wp-section reveal">
+    <h2>The Tokenization Workflow</h2>
+
+    <h3>Step 1: Asset Initiation &amp; Vaulting</h3>
+    <p>The user submits their high-value sports memorabilia or card to one of our specialized, partnered vault facilities. These established professional vaults ensure physical security and authenticity from the moment of receipt.</p>
+
+    <h3>Step 2: Certification &amp; Digital Minting</h3>
+    <p>The vault partner conducts rigorous certification — high-resolution imaging, physical authentication, grading verification. Once certified, the asset's unique data is minted as a tokenized asset on the Sports Pay Coin blockchain, creating an immutable digital twin that serves as proof of ownership and provenance.</p>
+
+    <h3>Step 3: Liquidity &amp; Exchange Listing</h3>
+    <p>The newly tokenized asset goes live on our proprietary exchange. Users can buy, sell, or trade the asset instantly using Sports Pay Coin as the native currency — unlocking liquidity previously impossible with physical collectibles.</p>
   </section>
 
   <!-- Tokenomics -->
@@ -123,7 +144,7 @@
           <li><span class="lab">Public / Liquidity</span><span class="pct">80%</span></li>
           <li><span class="lab">Core Team</span><span class="pct">10%</span></li>
           <li><span class="lab">Community Rewards</span><span class="pct">5%</span></li>
-          <li><span class="lab">Athletes Reserve</span><span class="pct">5%</span></li>
+          <li><span class="lab">Vault &amp; Athletes Reserve</span><span class="pct">5%</span></li>
         </ul>
       </div>
     </div>
@@ -132,7 +153,7 @@
     <ul class="wp-bullets">
       <li>80% allocated for public distribution and liquidity pools to ensure healthy market dynamics</li>
       <li>5% reserved for community incentives, airdrops, and ecosystem rewards</li>
-      <li>5% dedicated to athlete partnerships and sports organization integrations</li>
+      <li>5% dedicated to vault partnerships and athlete integrations</li>
       <li>10% for core team with vesting schedule to align long-term interests</li>
     </ul>
   </section>
@@ -140,7 +161,7 @@
   <!-- Presale Phases -->
   <section class="wp-section reveal">
     <h2>Presale Phases</h2>
-    <p style="max-width: 70ch; margin-bottom: 28px;">Sports Pay Coin will launch through a structured 4-phase presale to ensure fair distribution and progressive community building. Each phase offers unique opportunities for early supporters.</p>
+    <p style="max-width: 70ch; margin-bottom: 28px;">Sports Pay Coin launches through a structured four-phase presale to ensure fair distribution and progressive community building. Each phase offers unique opportunities for early supporters.</p>
 
     <div class="wp-grid-4">
       <div class="wp-phase-card first">
@@ -184,8 +205,8 @@
     <h3 style="margin-top: 32px;">Presale Benefits</h3>
     <ul class="wp-bullets">
       <li>Progressive pricing structure rewarding early participants</li>
-      <li>Exclusive bonuses for each phase participants</li>
-      <li>Priority access to platform features and partnerships</li>
+      <li>Phase-specific bonus structures</li>
+      <li>Priority access to platform features and vault partnerships</li>
       <li>Early community governance participation rights</li>
     </ul>
   </section>
@@ -195,26 +216,45 @@
     <h2>Use Cases</h2>
     <div class="wp-grid-4">
       <div class="wp-card">
-        <div class="ic">🎫</div>
-        <h3>Event Ticketing</h3>
-        <p>Fans can purchase tickets to sports events using SPC tokens, enjoying lower fees and faster transactions compared to traditional payment methods.</p>
+        <div class="ic">🃏</div>
+        <h3>Fractional Card Ownership</h3>
+        <p>A $6M Babe Ruth card split into a million $6 shares. Anyone can own a piece of the cards they grew up watching.</p>
       </div>
       <div class="wp-card">
-        <div class="ic">💼</div>
-        <h3>Athlete Salaries</h3>
-        <p>Sports organizations can pay athletes instantly in SPC tokens, eliminating currency conversion fees and delays, especially beneficial for international athletes.</p>
+        <div class="ic">📊</div>
+        <h3>Dealer Portfolio Management</h3>
+        <p>Pro dealers list inventory as tokens, trade size on the open market, hedge exposure across players and grades.</p>
       </div>
       <div class="wp-card">
-        <div class="ic">🤝</div>
-        <h3>Sponsorship Deals</h3>
-        <p>Enable transparent and automated sponsorship payments through smart contracts, ensuring timely compensation based on performance metrics.</p>
+        <div class="ic">🏦</div>
+        <h3>DeFi Collateral</h3>
+        <p>Use tokenized cards as collateral. Borrow SPC against a card you don't want to sell, or earn yield by supplying liquidity.</p>
       </div>
       <div class="wp-card">
-        <div class="ic">🏆</div>
-        <h3>Fan Rewards</h3>
-        <p>Reward loyal fans with SPC tokens for engagement, attendance, and participation in community events and activities.</p>
+        <div class="ic">🎁</div>
+        <h3>Token-Holder Experiences</h3>
+        <p>Highlight-NFT airdrops, digital meet-and-greets, voting rights on vault acquisitions — token ownership unlocks access.</p>
       </div>
     </div>
+  </section>
+
+  <!-- The Oracle -->
+  <section class="wp-section reveal">
+    <h2>The Sports Oracle</h2>
+    <p style="max-width: 70ch;">The Sports Oracle is a trusted data feed that brings real-world sports information on-chain — final scores, player statistics, injury reports, social sentiment, and betting odds. This data feeds smart contracts that automatically adjust token prices based on predefined rules.</p>
+
+    <p style="max-width: 70ch; margin-top: 14px;"><em>Without an oracle: your token price moves like a museum painting — only when someone buys or sells. With an oracle: your token price moves like a public stock — reacting instantly to games, news, and fan sentiment.</em></p>
+
+    <h3 style="margin-top: 28px;">Oracle Capabilities</h3>
+    <ul class="wp-bullets">
+      <li>Fantasy-meets-investing: 5-touchdown game increases token value automatically</li>
+      <li>Real-time engagement: trade on injuries, buzzer-beaters, record performances</li>
+      <li>Automatic buy walls: smart contracts support prices during positive news</li>
+      <li>Social sentiment integration: Twitter buzz, fan polls, odds movement</li>
+      <li>Permissionless ecosystem: other developers can build on the oracle data</li>
+      <li>Reduced manipulation: rate-limited withdrawals and dispute mechanisms</li>
+      <li>Backtesting capability: historical data validates pricing models before launch</li>
+    </ul>
   </section>
 
   <!-- Roadmap -->
@@ -223,31 +263,31 @@
     <div class="wp-roadmap">
       <div class="wp-quarter">
         <div class="qn">Q1</div>
-        <div class="qtitle">Launch Phase</div>
+        <div class="qtitle">Foundation</div>
         <ul class="wp-bullets">
-          <li>Token launch and initial distribution</li>
-          <li>Community building and social media presence</li>
-          <li>Website and whitepaper release</li>
-          <li>Initial exchange listings</li>
+          <li>Presale launch and SPC token distribution</li>
+          <li>First vault partnerships secured</li>
+          <li>Community building and exchange listings</li>
+          <li>Website and whitepaper v2 release</li>
         </ul>
       </div>
       <div class="wp-quarter">
         <div class="qn">Q2</div>
-        <div class="qtitle">Partnership Development</div>
+        <div class="qtitle">Tokenization Live</div>
         <ul class="wp-bullets">
-          <li>Onboard first sports partnerships</li>
-          <li>Beta testing of payment systems</li>
-          <li>Community governance implementation</li>
-          <li>Marketing campaign expansion</li>
+          <li>Vault onboarding flow opens</li>
+          <li>First card minting events</li>
+          <li>Beta exchange with whole-card trading</li>
+          <li>Initial dealer partner program</li>
         </ul>
       </div>
       <div class="wp-quarter">
         <div class="qn">Q3</div>
-        <div class="qtitle">Platform Expansion</div>
+        <div class="qtitle">Oracle &amp; Fractional</div>
         <ul class="wp-bullets">
-          <li>Launch ticketing integration pilot</li>
-          <li>Athlete contract tokenization beta</li>
-          <li>Additional exchange listings</li>
+          <li>Fractional share trading goes live</li>
+          <li>Sports Oracle phase 1 (scores + stats)</li>
+          <li>DeFi collateral integrations</li>
           <li>Mobile app development</li>
         </ul>
       </div>
@@ -255,10 +295,10 @@
         <div class="qn">Q4</div>
         <div class="qtitle">Ecosystem Growth</div>
         <ul class="wp-bullets">
-          <li>Full platform launch</li>
-          <li>Major sports organization partnerships</li>
-          <li>Global expansion initiatives</li>
-          <li>Advanced DeFi features implementation</li>
+          <li>Full oracle: sentiment + odds + live events</li>
+          <li>Token-holder experience programs</li>
+          <li>Global vault network expansion</li>
+          <li>Developer API and ecosystem grants</li>
         </ul>
       </div>
     </div>
@@ -270,13 +310,13 @@
     <div class="wp-grid-2">
       <div class="wp-card">
         <div class="ic">⛓️</div>
-        <h3>Blockchain Technology</h3>
-        <p>Sports Pay Coin leverages modern blockchain infrastructure to ensure fast, secure, and cost-effective transactions. Our technology stack is designed for scalability and seamless integration with existing sports payment systems.</p>
+        <h3>Solana Settlement</h3>
+        <p>SPC is built on Solana for speed, low fees, and seamless integration with the existing DeFi ecosystem. Token transfers settle in sub-second time at fractional-cent cost.</p>
       </div>
       <div class="wp-card">
         <div class="ic">🔐</div>
         <h3>Security Measures</h3>
-        <p>We prioritize security through regular smart contract audits, multi-signature wallet implementations, and adherence to industry best practices to protect user funds and maintain platform integrity.</p>
+        <p>We prioritize security through smart-contract audits, multi-signature wallets, rate-limited withdrawals on oracle-driven price moves, and adherence to industry best practices.</p>
       </div>
     </div>
   </section>
@@ -284,19 +324,19 @@
   <!-- Community & Governance -->
   <section class="wp-section reveal">
     <h2>Community &amp; Governance</h2>
-    <p style="max-width: 70ch;">The Sports Pay Coin community is at the heart of our project. We believe in decentralized governance and community-driven decision making. Token holders will have the opportunity to participate in key decisions regarding platform development, partnerships, and fund allocation.</p>
+    <p style="max-width: 70ch;">The Sports Pay Coin community sits at the heart of the project. Token holders participate in governance decisions on platform development, vault acquisition priorities, and ecosystem grants. Decentralized decision-making is the long-term direction.</p>
     <div class="wp-grid-3" style="margin-top: 24px;">
       <div class="wp-card">
         <h3 class="gradient-text" style="font-size: 28px;">2.1K+</h3>
-        <p>Members. A growing community of sports fans and crypto enthusiasts</p>
+        <p>Members. Sports fans, collectors, dealers, and crypto natives.</p>
       </div>
       <div class="wp-card">
         <h3 class="gradient-text" style="font-size: 28px;">Global</h3>
-        <p>Reach. Community members from around the world</p>
+        <p>Reach. Community members from every major sports market.</p>
       </div>
       <div class="wp-card">
         <h3 class="gradient-text" style="font-size: 28px;">Active</h3>
-        <p>Engagement. Daily discussions and community events</p>
+        <p>Engagement. Daily discussions, weekly AMAs, and live events.</p>
       </div>
     </div>
   </section>
@@ -308,16 +348,16 @@
       <h2>Risk Warning</h2>
       <p>Sports Pay Coin is a meme-based cryptocurrency created purely for entertainment and community engagement. It has no intrinsic value and should not be considered an investment, financial product, or security of any kind.</p>
       <p>By purchasing, trading, or interacting with Sports Pay Coin, you acknowledge that the value can change rapidly and you may lose some or all of your money. Cryptocurrency and meme coins are highly volatile assets.</p>
-      <p>Sports Pay Coin, its team, and its contributors are not responsible for any losses, damages, or issues that arise from holding, using, or trading the coin. Nothing on this website or in this whitepaper constitutes financial or investment advice. Always conduct your own research and consult with qualified professionals before making any investment decisions.</p>
+      <p>Sports Pay Coin, its team, and its contributors are not responsible for any losses, damages, or issues that arise from holding, using, or trading the coin. Nothing on this website or in this whitepaper constitutes financial or investment advice. Always conduct your own research and consult with qualified professionals before making any decisions.</p>
     </div>
   </section>
 
   <!-- Final CTA -->
   <section class="wp-section reveal">
     <div class="final-cta">
-      <span class="eyebrow"><span class="dot"></span>Join Our Community</span>
-      <h2 class="h-section" style="margin-top: 20px;">Stay connected across <span class="gradient-text">all platforms</span></h2>
-      <p>Get your SPC tokens during our presale and be part of the future of sports payments</p>
+      <span class="eyebrow"><span class="dot"></span>Join the Community</span>
+      <h2 class="h-section" style="margin-top: 20px;">Be part of the <span class="gradient-text">future of sports collectibles</span></h2>
+      <p>Get your SPC tokens during the presale and trade from day one.</p>
       <div class="ctas">
         <a href="index.html#presale" class="btn btn-grad btn-lg">
           Join Presale
@@ -330,7 +370,6 @@
 
 </main>
 
-<!-- Footer -->
 <footer class="footer">
   <div class="container">
     <div class="footer-top">
@@ -338,7 +377,7 @@
         <span class="brand-coin"></span>
         <span>Sports Pay Coin</span>
       </div>
-      <div class="footer-copy">© 2024 Sports Pay Coin. All rights reserved.</div>
+      <div class="footer-copy">© 2026 Sports Pay Coin · The future of sports finance.</div>
     </div>
     <div class="footer-disclaimer">
       <strong>Disclaimer</strong>

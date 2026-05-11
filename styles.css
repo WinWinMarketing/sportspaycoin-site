@@ -2098,3 +2098,695 @@ section {
   .wp-spec-row { grid-template-columns: 1fr; padding: 18px 20px; }
   .wp-spec-row dd { text-align: left; }
 }
+
+/* =========================================================
+   Sub-page hero image frame
+   ========================================================= */
+.hero-image-frame {
+  position: relative;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  margin: 0 auto;
+  max-width: 1100px;
+  aspect-ratio: 16 / 9;
+  background: var(--void-card);
+  box-shadow:
+    0 30px 80px rgba(139, 92, 246, 0.18),
+    0 10px 30px rgba(0, 0, 0, 0.6),
+    inset 0 0 0 1px var(--hairline);
+}
+.hero-image-frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 55%, rgba(0,0,0,0.45) 100%);
+  pointer-events: none;
+}
+.hero-image-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* =========================================================
+   how-it-works.html: workflow steps (image + text rows)
+   ========================================================= */
+.workflow-grid {
+  display: grid;
+  gap: 48px;
+  margin-top: 48px;
+}
+.workflow-step {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: 44px;
+  align-items: center;
+}
+.workflow-step.reverse {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+}
+.workflow-step.reverse .workflow-media { order: 2; }
+.workflow-step.reverse .workflow-body { order: 1; }
+
+.workflow-media {
+  position: relative;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  background: var(--void-card);
+  box-shadow:
+    0 20px 50px rgba(139, 92, 246, 0.18),
+    0 6px 20px rgba(0, 0, 0, 0.55),
+    inset 0 0 0 1px var(--hairline);
+}
+.workflow-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.8s cubic-bezier(.2,.7,.2,1);
+}
+.workflow-step:hover .workflow-media img {
+  transform: scale(1.04);
+}
+.workflow-tag {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  padding: 6px 12px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--white);
+  background: rgba(0,0,0,0.55);
+  border-radius: var(--r-pill);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+}
+.workflow-body h3 {
+  font-family: var(--display);
+  font-size: clamp(28px, 3.4vw, 40px);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+}
+.workflow-body p {
+  font-size: 17px;
+  color: var(--silver);
+  line-height: 1.55;
+  margin-bottom: 18px;
+}
+
+@media (max-width: 900px) {
+  .workflow-step,
+  .workflow-step.reverse {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .workflow-step.reverse .workflow-media { order: 0; }
+  .workflow-step.reverse .workflow-body { order: 1; }
+}
+
+/* =========================================================
+   Audience cards (collectors / dealers)
+   ========================================================= */
+.audience-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+  margin-top: 48px;
+}
+.audience-card {
+  display: block;
+  position: relative;
+  background: var(--void-card);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px var(--hairline);
+  transition: transform 0.35s cubic-bezier(.2,.7,.2,1), box-shadow 0.35s;
+}
+.audience-card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 30px 60px rgba(139, 92, 246, 0.25),
+    inset 0 0 0 1px var(--frost-3);
+}
+.audience-media {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  position: relative;
+}
+.audience-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.8s cubic-bezier(.2,.7,.2,1);
+}
+.audience-card:hover .audience-media img {
+  transform: scale(1.06);
+}
+.audience-media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.55) 100%);
+  pointer-events: none;
+}
+.audience-body {
+  padding: 28px 30px 30px;
+}
+.audience-body h3 {
+  font-family: var(--display);
+  font-size: 26px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+}
+.audience-body p {
+  color: var(--silver);
+  font-size: 15px;
+  line-height: 1.55;
+  margin-bottom: 16px;
+}
+.audience-cta {
+  font-family: var(--body);
+  font-size: 14px;
+  font-weight: 500;
+  background: var(--grad-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  letter-spacing: 0;
+}
+
+@media (max-width: 800px) {
+  .audience-grid { grid-template-columns: 1fr; }
+}
+
+/* =========================================================
+   Feature link cards (home page big three)
+   ========================================================= */
+.feature-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.feature-cta {
+  display: inline-block;
+  margin-top: 16px;
+  font-family: var(--body);
+  font-size: 13px;
+  font-weight: 500;
+  background: var(--grad-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  letter-spacing: 0;
+}
+
+/* =========================================================
+   oracle.html: museum vs stock compare
+   ========================================================= */
+.compare-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-top: 48px;
+}
+.compare-card {
+  position: relative;
+  background: var(--void-card);
+  border-radius: var(--r-lg);
+  padding: 36px 32px;
+  box-shadow: inset 0 0 0 1px var(--hairline);
+  overflow: hidden;
+}
+.compare-card.compare-new::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--r-lg);
+  padding: 1px;
+  background: var(--grad-brand);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0.7;
+}
+.compare-tag {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ghost);
+  padding: 5px 12px;
+  background: var(--frost-1);
+  border-radius: var(--r-pill);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+  margin-bottom: 18px;
+}
+.compare-card.compare-new .compare-tag {
+  color: var(--white);
+  background: var(--grad-brand-soft);
+}
+.compare-card h3 {
+  font-family: var(--display);
+  font-size: 32px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  margin-bottom: 14px;
+}
+.compare-card p {
+  font-size: 16px;
+  color: var(--silver);
+  line-height: 1.55;
+  margin-bottom: 24px;
+}
+.compare-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 12px;
+}
+.compare-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14.5px;
+  color: var(--white);
+}
+.compare-list .cmark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.compare-list .cmark.on {
+  background: var(--grad-brand);
+  color: var(--void);
+}
+.compare-list .cmark.off {
+  background: var(--frost-2);
+  color: var(--ghost);
+}
+
+@media (max-width: 800px) {
+  .compare-grid { grid-template-columns: 1fr; }
+}
+
+/* =========================================================
+   oracle.html: data feed grid
+   ========================================================= */
+.feeds-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-top: 48px;
+}
+.feed-card {
+  background: var(--void-card);
+  border-radius: var(--r-lg);
+  padding: 26px 26px 28px;
+  box-shadow: inset 0 0 0 1px var(--hairline);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.feed-card:hover {
+  transform: translateY(-3px);
+  box-shadow: inset 0 0 0 1px var(--frost-3), 0 20px 40px rgba(139, 92, 246, 0.15);
+}
+.feed-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--frost-1);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+  margin-bottom: 16px;
+}
+.feed-icon svg { width: 22px; height: 22px; }
+.feed-card h3 {
+  font-family: var(--display);
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  margin-bottom: 8px;
+}
+.feed-card p {
+  font-size: 14px;
+  color: var(--silver);
+  line-height: 1.5;
+}
+
+@media (max-width: 900px) {
+  .feeds-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .feeds-grid { grid-template-columns: 1fr; }
+}
+
+/* =========================================================
+   Oracle quote card
+   ========================================================= */
+.quote-card {
+  text-align: center;
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 56px 32px;
+  background: var(--void-card);
+  border-radius: var(--r-lg);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+  position: relative;
+  overflow: hidden;
+}
+.quote-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(40vw 40vw at 50% 0%, rgba(139, 92, 246, 0.18), transparent 60%);
+  pointer-events: none;
+}
+.quote-text {
+  font-family: var(--display);
+  font-size: clamp(22px, 3vw, 32px);
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  color: var(--white);
+  position: relative;
+  margin-bottom: 18px;
+}
+.quote-attr {
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  color: var(--ghost);
+  position: relative;
+}
+
+/* =========================================================
+   why-tokenize.html: numbered benefit rows + top stat strip
+   ========================================================= */
+.stat-strip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  padding: 36px 28px;
+  background: var(--void-card);
+  border-radius: var(--r-lg);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+}
+.stat-strip-cell {
+  text-align: center;
+}
+.stat-strip-num {
+  font-family: var(--display);
+  font-size: clamp(40px, 5vw, 64px);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+.stat-strip-lbl {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ghost);
+}
+.stat-strip-divider {
+  font-family: var(--display);
+  font-size: 28px;
+  color: var(--frost-3);
+}
+
+.benefit-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 40px;
+  align-items: flex-start;
+  padding: 56px 0;
+  border-top: 1px solid var(--hairline);
+}
+.benefit-row.reverse {
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+}
+.benefit-num {
+  font-family: var(--mono);
+  font-size: clamp(48px, 8vw, 96px);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  background: var(--grad-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  opacity: 0.85;
+  min-width: 1.5ch;
+}
+.benefit-content {
+  max-width: 720px;
+}
+.benefit-content .eyebrow { margin-bottom: 16px; }
+.benefit-content h2 {
+  font-family: var(--display);
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+}
+.benefit-content p {
+  font-size: 17px;
+  color: var(--silver);
+  line-height: 1.6;
+}
+.benefit-content p + p { margin-top: 14px; }
+
+@media (max-width: 720px) {
+  .benefit-row {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .stat-strip-divider { display: none; }
+}
+
+/* =========================================================
+   exchange.html: mock trading UI
+   ========================================================= */
+.exchange-mock {
+  max-width: 980px;
+  margin: 48px auto 0;
+  padding: 32px;
+  background: var(--void-card);
+  border-radius: var(--r-lg);
+  box-shadow:
+    0 30px 60px rgba(0, 0, 0, 0.55),
+    inset 0 0 0 1px var(--hairline);
+  position: relative;
+  overflow: hidden;
+}
+.exchange-mock::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(40vw 30vw at 100% 0%, rgba(34, 211, 238, 0.10), transparent 60%);
+  pointer-events: none;
+}
+.exchange-mock-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--hairline);
+  position: relative;
+}
+.exchange-mock-pair {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.exchange-mock-pair-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: var(--grad-brand);
+  box-shadow: 0 6px 18px rgba(139, 92, 246, 0.35);
+  position: relative;
+  overflow: hidden;
+}
+.exchange-mock-pair-icon::after {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border-radius: 6px;
+  background: rgba(0,0,0,0.35);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.15);
+}
+.exchange-mock-pair-name {
+  font-family: var(--display);
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+.exchange-mock-pair-sub {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ghost);
+  margin-top: 4px;
+}
+.grade-pill {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  background: var(--grad-brand-soft);
+  border-radius: var(--r-pill);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+  margin-left: 6px;
+  vertical-align: middle;
+}
+.exchange-mock-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 8px 14px;
+  background: var(--frost-1);
+  border-radius: var(--r-pill);
+  color: var(--white);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+}
+
+.exchange-mock-price-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 24px 0 18px;
+  flex-wrap: wrap;
+  position: relative;
+}
+.exchange-mock-price {
+  font-family: var(--display);
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--white);
+}
+.exchange-mock-change {
+  font-family: var(--mono);
+  font-size: 14px;
+  margin-top: 8px;
+}
+.exchange-mock-change.up { color: #34d399; }
+.exchange-mock-change.down { color: #f87171; }
+
+.exchange-mock-meta {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+.meta-cell { min-width: 80px; }
+.meta-lbl {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ghost);
+  margin-bottom: 4px;
+}
+.meta-val {
+  font-family: var(--mono);
+  font-size: 16px;
+  color: var(--white);
+}
+
+.exchange-mock-chart {
+  height: 200px;
+  margin: 6px 0 22px;
+  position: relative;
+}
+.exchange-mock-chart svg {
+  width: 100%;
+  height: 100%;
+}
+
+.exchange-mock-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  position: relative;
+}
+.exchange-mock-btn {
+  flex: 1;
+  min-width: 140px;
+  height: 48px;
+  padding: 0 22px;
+  border-radius: var(--r-pill);
+  font-family: var(--body);
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.exchange-mock-btn.buy {
+  background: var(--grad-brand);
+  color: var(--white);
+  box-shadow: 0 8px 22px rgba(139, 92, 246, 0.3);
+}
+.exchange-mock-btn.sell {
+  background: var(--frost-2);
+  color: var(--white);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+}
+.exchange-mock-btn.ghost {
+  background: transparent;
+  color: var(--white);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+}
+.exchange-mock-btn:hover { transform: translateY(-1px); }
+
+.exchange-mock-footer {
+  margin-top: 20px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ghost);
+  text-align: center;
+  position: relative;
+}
+
+@media (max-width: 720px) {
+  .exchange-mock { padding: 22px; }
+  .exchange-mock-actions { flex-direction: column; }
+  .exchange-mock-btn { width: 100%; }
+}
