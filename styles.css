@@ -41,7 +41,7 @@
 
   /* Spacing */
   --container: 1200px;
-  --section-y: 120px;
+  --section-y: 80px;
 
   /* Radius */
   --r-sm: 8px;
@@ -1756,7 +1756,7 @@ section {
    ========================================================= */
 
 @media (max-width: 980px) {
-  :root { --section-y: 80px; }
+  :root { --section-y: 60px; }
   .howto-grid, .vision-grid, .tokenomics-teaser, .dist-grid, .econ-grid { grid-template-columns: 1fr; gap: 28px; }
   .feature-grid, .specs-grid, .phases, .utility-grid { grid-template-columns: repeat(2, 1fr); }
   .stats-row { grid-template-columns: 1fr; }
@@ -1770,7 +1770,7 @@ section {
 }
 
 @media (max-width: 600px) {
-  :root { --section-y: 60px; }
+  :root { --section-y: 44px; }
   .feature-grid, .specs-grid, .phases, .utility-grid { grid-template-columns: 1fr; }
   .countdown-grid { grid-template-columns: repeat(2, 1fr); }
   .container { padding: 0 18px; }
@@ -1805,7 +1805,7 @@ section {
   box-shadow: inset 0 0 0 1px var(--hairline);
 }
 .wp-section {
-  padding: 56px 0;
+  padding: 40px 0;
 }
 .wp-section + .wp-section {
   border-top: 1px solid var(--hairline);
@@ -2544,7 +2544,7 @@ section {
   grid-template-columns: auto 1fr;
   gap: 40px;
   align-items: flex-start;
-  padding: 56px 0;
+  padding: 40px 0;
   border-top: 1px solid var(--hairline);
 }
 .benefit-row.reverse {
