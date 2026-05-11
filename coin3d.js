@@ -3,6 +3,15 @@
 // Loads spc-coin.glb (Meshy / Blender export) via GLTFLoader, frames it in the
 // host element, and adds drag-to-spin / wheel / double-click flick physics so
 // the coin always feels alive. Three.js loaded via importmap in index.html.
+//
+// Performance guards:
+//   1. If WebGL falls back to a software renderer (e.g. hardware acceleration
+//      off in Chrome, SwiftShader / llvmpipe / Microsoft Basic Render Driver),
+//      we skip 3D entirely and show a CSS-animated static logo.
+//   2. After init, a short frame-time probe catches slow GPUs that aren't
+//      flagged as "software" but still can't keep up — same fallback.
+//   3. The render loop pauses when the coin is off-screen or the tab is
+//      hidden, so we don't burn frames behind the rest of the page.
 
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
@@ -10,11 +19,54 @@ import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 
 const HOST_ID = 'coin3d-host';
 const MODEL_URL = 'spc-coin.glb';
+const FALLBACK_IMG = 'spc-logo.png';
+
+const SOFTWARE_RENDERER_HINTS = [
+  'swiftshader',
+  'llvmpipe',
+  'software',
+  'microsoft basic render',
+  'mesa offscreen',
+];
+
+function showStaticFallback(host) {
+  if (host.querySelector('.coin-fallback')) return;
+  const wrap = document.createElement('div');
+  wrap.className = 'coin-fallback';
+  const img = document.createElement('img');
+  img.src = FALLBACK_IMG;
+  img.alt = 'Sports Pay Coin';
+  img.decoding = 'async';
+  img.loading = 'eager';
+  wrap.appendChild(img);
+  host.appendChild(wrap);
+}
+
+function detectSoftwareRenderer() {
+  try {
+    const c = document.createElement('canvas');
+    const gl = c.getContext('webgl', { failIfMajorPerformanceCaveat: true })
+            || c.getContext('experimental-webgl', { failIfMajorPerformanceCaveat: true });
+    if (!gl) return true; // no WebGL or browser flagged a major perf caveat
+    const ext = gl.getExtension('WEBGL_debug_renderer_info');
+    if (!ext) return false; // can't tell — assume hardware
+    const renderer = String(gl.getParameter(ext.UNMASKED_RENDERER_WEBGL) || '').toLowerCase();
+    return SOFTWARE_RENDERER_HINTS.some(h => renderer.includes(h));
+  } catch {
+    return true;
+  }
+}
 
 // ---------- Main entry ----------
 export function initCoin3D() {
   const host = document.getElementById(HOST_ID);
   if (!host) return;
+
+  // Fast path: known-bad GPU → static fallback, no Three.js at all.
+  if (detectSoftwareRenderer()) {
+    showStaticFallback(host);
+    return;
+  }
 
   const W = () => host.clientWidth;
   const H = () => host.clientHeight;
@@ -185,10 +237,36 @@ export function initCoin3D() {
   // ---------- Animate ----------
   let last = performance.now();
   let resizeRAF = 0;
+  let rafId = 0;
+  let running = true;
+
+  // Frame-time probe: average over ~30 frames once the GLB has rendered.
+  // If it's bad (≥ ~28ms avg → < ~36fps), tear down and use the static fallback.
+  let probeFrames = 0;
+  let probeAccum = 0;
+  const PROBE_SAMPLES = 30;
+  const SLOW_AVG_MS = 28;
+  let probed = false;
+
+  function fallbackToStatic() {
+    running = false;
+    cancelAnimationFrame(rafId);
+    try {
+      renderer.dispose();
+      pmrem.dispose();
+      envTex.dispose();
+    } catch {}
+    if (renderer.domElement && renderer.domElement.parentNode) {
+      renderer.domElement.parentNode.removeChild(renderer.domElement);
+    }
+    showStaticFallback(host);
+  }
 
   function animate(now) {
-    requestAnimationFrame(animate);
+    if (!running) return;
+    rafId = requestAnimationFrame(animate);
     const dt = Math.min(0.05, (now - last) / 1000);
+    const frameMs = now - last;
     last = now;
 
     if (!state.dragging) {
@@ -203,8 +281,55 @@ export function initCoin3D() {
     }
 
     renderer.render(scene, camera);
+
+    // Only sample after the GLB has loaded and the scene has had a chance to
+    // settle — first frame is often inflated by shader compile / texture upload.
+    if (!probed && coin && frameMs < 200) {
+      probeAccum += frameMs;
+      probeFrames++;
+      if (probeFrames >= PROBE_SAMPLES) {
+        probed = true;
+        const avg = probeAccum / probeFrames;
+        if (avg >= SLOW_AVG_MS) {
+          console.warn(`[coin3d] Slow GPU detected (${avg.toFixed(1)}ms/frame avg) — falling back to static logo`);
+          fallbackToStatic();
+        }
+      }
+    }
   }
-  requestAnimationFrame(animate);
+
+  function start() {
+    if (running && rafId) return;
+    running = true;
+    last = performance.now();
+    rafId = requestAnimationFrame(animate);
+  }
+  function stop() {
+    running = false;
+    cancelAnimationFrame(rafId);
+    rafId = 0;
+  }
+
+  // Pause unless the coin is both on-screen AND the tab is visible.
+  let onScreen = true;
+  let pageVisible = !document.hidden;
+  function reconcile() {
+    if (onScreen && pageVisible) start(); else stop();
+  }
+  rafId = requestAnimationFrame(animate);
+
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      for (const entry of entries) onScreen = entry.isIntersecting;
+      reconcile();
+    }, { threshold: 0.01 });
+    io.observe(host);
+  }
+
+  document.addEventListener('visibilitychange', () => {
+    pageVisible = !document.hidden;
+    reconcile();
+  });
 
   // ---------- Resize ----------
   function onResize() {
